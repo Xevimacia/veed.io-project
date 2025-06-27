@@ -1,6 +1,6 @@
 # VEED Video Library Dashboard
 
-A full-stack application to browse, sort, and manage your video library. Built with React, Vite, TypeScript, Tailwind CSS, daisyUI, and (upcoming) Node.js + Express backend.
+A full-stack application to browse, sort, and manage your video library. Built with React, Vite, TypeScript, Tailwind CSS, daisyUI, and Node.js + Express backend.
 
 ---
 
@@ -28,8 +28,23 @@ npm install
 ```bash
 npm run dev
 ```
-
 The app will be available at [http://localhost:5173](http://localhost:5173)
+
+### 4. Install dependencies (Backend)
+```bash
+cd ../backend
+nvm use v20 # or install Node.js v20 LTS
+npm install
+```
+
+### 5. Run the backend API server
+```bash
+npm run dev
+```
+The API will be available at [http://localhost:4000](http://localhost:4000)
+
+- On first run, the backend will automatically create a SQLite database in `backend/data/videos.db` and seed it with data from `backend/videos.json` if the table is empty.
+- No manual migration or seeding steps are required.
 
 ---
 
@@ -42,8 +57,13 @@ veed.io-project/
       ...
     public/      # Static assets (favicon, etc.)
     ...
-  backend/       # (To be implemented) Node.js + Express + SQLite
-  videos.json    # Seed data for backend
+  backend/       # Node.js + Express + SQLite (API)
+    data/        # SQLite database file (videos.db)
+    src/
+      db/        # DB connection and seeding logic
+      routes/    # API route handlers
+      ...
+    videos.json  # Seed data for backend
   task.md        # Task tracking and changelog
   planning.md    # Architecture and planning notes
   context.md     # Challenge context and requirements
@@ -58,6 +78,9 @@ veed.io-project/
 - **Tailwind CSS**: Utility-first CSS framework
 - **daisyUI**: Pre-styled Tailwind components
 - **React Router**: Routing (`/`, `/new`)
+- **Express**: Backend API
+- **better-sqlite3**: SQLite database
+- **CORS, body-parser**: Middleware for API
 
 ---
 
@@ -67,11 +90,12 @@ veed.io-project/
 - React Router with `/` and `/new` routes
 - Favicon and meta tags set up
 - Modular page structure
+- Backend API and database setup with auto-seeding
 
 ---
 
 ## 📝 Next Steps
-- Backend API (Node.js + Express + SQLite)
+- Backend API endpoints (`GET /api/videos`, `POST /api/videos`)
 - Video grid and form implementation
 - API integration
 - Testing (Vitest, React Testing Library)
