@@ -91,6 +91,18 @@ veed.io-project/
 - Favicon and meta tags set up
 - Modular page structure
 - Backend API and database setup with auto-seeding
+- **GET /api/videos** endpoint implemented (Express v4, TypeScript, zod validation, error handling)
+
+---
+
+## 🛡️ API Endpoints
+
+### `GET /api/videos`
+- Returns a list of all videos from the SQLite database
+- Supports optional `?sort=asc|desc` query parameter (default: newest first)
+- Returns: Array of video objects with fields: `id`, `title`, `thumbnail_url`, `created_at`, `duration`, `views`, `tags`
+- Input validated with zod; errors return 400 with JSON error message
+- All errors are handled with proper status codes and JSON responses
 
 ---
 
@@ -105,3 +117,29 @@ veed.io-project/
 
 ## 📚 Documentation & References
 - See `context.md` for challenge requirements
+
+## 🧪 Testing & Monorepo Note
+
+Tests for backend and frontend are kept inside their respective package folders (e.g., `backend/tests/`, `frontend/tests/`).
+
+> **Note:** For larger or more complex monorepos, tools like Yarn Workspaces, pnpm, or Turborepo can be used to centralize dependencies and test runs. In this project, we intentionally keep the structure lean and simple, with each package managing its own dependencies, scripts, and tests for maximum clarity and minimal overhead.
+
+## 🧪 Running Backend Tests
+
+To run backend API tests:
+
+1. Open a terminal and navigate to the backend folder:
+   ```sh
+   cd backend
+   ```
+2. Install dependencies (if not already done):
+   ```sh
+   npm install
+   ```
+3. Run the tests (runs once and exits):
+   ```sh
+   npm run test
+   ```
+
+- Tests use [Vitest](https://vitest.dev/) and [Supertest](https://github.com/ladjs/supertest) for fast, robust API testing.
+- No need to start the backend server manually; tests import the Express app directly.
