@@ -17,9 +17,9 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/api/videos', videosRouter);
 
 if (require.main === module) {
-  app.listen(PORT, () => {
-    console.log(`Server listening on http://localhost:${PORT}`);
-  });
+app.listen(PORT, () => {
+  console.log(`Server listening on http://localhost:${PORT}`);
+});
 }
 
 export default app;

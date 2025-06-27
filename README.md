@@ -92,6 +92,8 @@ veed.io-project/
 - Modular page structure
 - Backend API and database setup with auto-seeding
 - **GET /api/videos** endpoint implemented (Express v4, TypeScript, zod validation, error handling)
+- Responsive, flicker-free layout with fixed nav bar and smooth fade transitions for sorting
+- All layout, spacing, and polish handled by Tailwind CSS and daisyUI utility classes
 
 ---
 
@@ -123,6 +125,9 @@ veed.io-project/
 Tests for backend and frontend are kept inside their respective package folders (e.g., `backend/tests/`, `frontend/tests/`).
 
 > **Note:** For larger or more complex monorepos, tools like Yarn Workspaces, pnpm, or Turborepo can be used to centralize dependencies and test runs. In this project, we intentionally keep the structure lean and simple, with each package managing its own dependencies, scripts, and tests for maximum clarity and minimal overhead.
+
+> **Frontend Testing Note:**
+> React Testing Library tests for the video grid and UI states could be implemented (e.g., loading, error, empty, and normal states), but are omitted here due to time constraints for the take-home challenge.
 
 ## 🧪 Running Backend Tests
 
