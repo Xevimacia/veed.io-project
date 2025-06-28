@@ -37,8 +37,12 @@ Build a fast, compact, and visually polished full-stack application that allows 
 ## 🛠️ Setup Instructions
 
 ### 1. Clone the repository
+
+You can use either HTTPS or SSH:
+
+**HTTPS:**
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Xevimacia/veed.io-project.git
 cd veed.io-project
 ```
 
