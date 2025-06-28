@@ -148,3 +148,5 @@ To run backend API tests:
 
 - Tests use [Vitest](https://vitest.dev/) and [Supertest](https://github.com/ladjs/supertest) for fast, robust API testing.
 - No need to start the backend server manually; tests import the Express app directly.
+
+> **Backend tests use an in-memory SQLite database, seeded from videos.json before each test. This ensures test isolation and prevents test data from polluting production. The production DB is auto-seeded if missing or empty.**
