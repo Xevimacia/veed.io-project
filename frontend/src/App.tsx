@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import VideoListPage from './pages/VideoListPage'
 import NewVideoPage from './pages/NewVideoPage'
+import ErrorBoundary from './components/ErrorBoundary'
 
 function App() {
   return (
@@ -11,12 +12,14 @@ function App() {
           <Link className="btn btn-primary" to="/new">Create New Video</Link>
         </div>
       </nav>
-      <div className="container mx-auto pt-24 pb-8">
-        <Routes>
-          <Route path="/" element={<VideoListPage />} />
-          <Route path="/new" element={<NewVideoPage />} />
-        </Routes>
-      </div>
+      <ErrorBoundary>
+        <div className="container mx-auto pt-24 pb-8">
+          <Routes>
+            <Route path="/" element={<VideoListPage />} />
+            <Route path="/new" element={<NewVideoPage />} />
+          </Routes>
+        </div>
+      </ErrorBoundary>
     </BrowserRouter>
   )
 }

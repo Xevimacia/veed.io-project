@@ -97,6 +97,10 @@ veed.io-project/
 - Modern toast notifications for both success and error cases (bottom-right, styled, auto-dismiss)
 - User-friendly error messages for network/server issues and validation errors
 - Create Video form: autofocus on title, loading state, cancel button, and robust client-side validation
+- **Global error boundary** for graceful fallback UI on unexpected errors
+- **Polished empty state** for video list (with icon, message, and CTA)
+- **Spacing, padding, and breakpoints** reviewed for consistent, responsive design
+- **Accessibility**: focus states and ARIA roles reviewed for all main flows
 
 ---
 

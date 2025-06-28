@@ -73,7 +73,21 @@ const VideoListPage: React.FC = () => {
           className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 transition-opacity duration-200 ${fade ? 'opacity-100' : 'opacity-0'}`}
         >
           {videos.length === 0 ? (
-            <div className="col-span-full text-center text-gray-500">No videos found.</div>
+            <div className="col-span-full flex flex-col items-center justify-center py-16">
+              <div className="card bg-base-100 shadow-xl p-8 max-w-md w-full items-center">
+                <div className="text-6xl mb-4" aria-hidden="true">🎬</div>
+                <h2 className="text-2xl font-bold mb-2">No videos found</h2>
+                <p className="mb-4 text-gray-500 text-center">Your video library is empty. Start by adding your first video!</p>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => navigate('/new')}
+                  autoFocus
+                  aria-label="Create New Video"
+                >
+                  + Create New Video
+                </button>
+              </div>
+            </div>
           ) : (
             videos.map((video) => (
               <VideoCard key={video.id} video={video} />
