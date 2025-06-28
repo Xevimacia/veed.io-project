@@ -251,5 +251,6 @@ npm run test
 - Per-component error boundaries
 - Premium tags & gated access (show "Premium" badge, simulate entitlement, CTA for upgrade)
 - Highlight high-value videos ("Trending" badge for high views, guide users to top content)
+- Add global state management (Redux Toolkit) if app complexity grows—enables scalable, predictable state across features
 
 ---
