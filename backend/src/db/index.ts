@@ -67,7 +67,7 @@ const db = createDb();
 try {
   const row = db.prepare('SELECT COUNT(*) as count FROM videos').get() as { count: number };
   if (row.count === 0) {
-    const jsonPath = path.join(__dirname, '../../videos.json');
+    const jsonPath = path.join(__dirname, '../../data/videos.json');
     seedDbFromJson(db, jsonPath);
     console.log('Seeded videos table from videos.json');
   }
