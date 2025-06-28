@@ -1,3 +1,6 @@
+> 🛡️ This repository was made public temporarily for evaluation purposes.  
+> It contains no sensitive data, and will be made private again after the review period.
+
 # VEED Video Library Dashboard
 
 A full-stack application to browse, sort, and manage your video library. Built with React, Vite, TypeScript, Tailwind CSS, daisyUI, and Node.js + Express backend.
