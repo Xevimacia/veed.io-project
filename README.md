@@ -249,30 +249,7 @@ npm run test
 - More frontend tests (VideoCard, loading, error, empty states)
 - Advanced responsive tweaks for edge cases
 - Per-component error boundaries
+- Premium tags & gated access (show "Premium" badge, simulate entitlement, CTA for upgrade)
+- Highlight high-value videos ("Trending" badge for high views, guide users to top content)
 
 ---
-
-## 📚 References
-
-- See `context.md` for challenge requirements
-- See `planning.md` for architecture and design notes
-- See `task.md` for changelog and implementation log
-
----
-
-## 🗒️ Changelog & Task Tracking
-
-- All major changes, decisions, and implementation steps are logged in `task.md`.
-
----
-
-## 🔒 Environment Variables
-
-- No environment variables are required for this project.
-- If you add any, document them in `.env.example`.
-
----
-
-## License
-
-MIT
