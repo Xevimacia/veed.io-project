@@ -1,12 +1,142 @@
-import React from 'react'
+import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Toast from '../components/Toast';
 
 const NewVideoPage: React.FC = () => {
-  return (
-    <>
-      <h2 className="text-2xl font-bold mb-4">New Video Page</h2>
-      {/* Form will go here */}
-    </>
-  );
-}
+  const [title, setTitle] = useState('');
+  const [tags, setTags] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+  const navigate = useNavigate();
+  const titleInputRef = useRef<HTMLInputElement>(null);
 
-export default NewVideoPage 
+  useEffect(() => {
+    titleInputRef.current?.focus();
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!title.trim()) {
+      setToast({ message: 'Title is required', type: 'error' });
+      return;
+    }
+    setLoading(true);
+    try {
+      // Parse tags: split by comma, trim, filter out empty
+      const tagsArray = tags
+        .split(',')
+        .map(tag => tag.trim())
+        .filter(tag => tag.length > 0);
+      const start = Date.now();
+      const res = await fetch('/api/videos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: title.trim(), tags: tagsArray }),
+      });
+      // Ensure at least 1000ms loading
+      const elapsed = Date.now() - start;
+      if (elapsed < 1000) {
+        await new Promise(resolve => setTimeout(resolve, 1000 - elapsed));
+      }
+      if (!res.ok) {
+        let errorMsg = 'Failed to create video';
+        try {
+          const data = await res.json();
+          if (data && typeof data.error === 'string') {
+            errorMsg = data.error;
+          }
+        } catch {
+          // Ignore JSON parse errors, use fallback message
+        }
+        setToast({ message: errorMsg, type: 'error' });
+        setLoading(false);
+        return;
+      }
+      // Pass toast message to list page and navigate
+      navigate('/', { state: { toast: { message: 'Video created successfully!', type: 'success' } } });
+    } catch (err: any) {
+      let friendlyMsg = 'An unexpected error occurred.';
+      if (err && typeof err.message === 'string') {
+        if (
+          err.message.includes('Failed to fetch') ||
+          err.message.includes('NetworkError') ||
+          err.message.includes('Network request failed')
+        ) {
+          friendlyMsg = 'Could not connect to the server. Please try again later.';
+        } else {
+          friendlyMsg = err.message;
+        }
+      }
+      setToast({ message: friendlyMsg, type: 'error' });
+      setLoading(false);
+    }
+    setLoading(false);
+  };
+
+  const handleCancel = () => {
+    navigate('/');
+  };
+
+  return (
+    <div className="flex justify-center items-center min-h-[60vh]">
+      <div className="card w-full max-w-md bg-base-100 shadow-xl p-6">
+        <h2 className="text-2xl font-bold mb-4">Create New Video</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="label">
+              <span className="label-text font-semibold">Title <span className="text-error">*</span></span>
+            </label>
+            <input
+              type="text"
+              className="input input-bordered w-full"
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+              required
+              disabled={loading}
+              ref={titleInputRef}
+            />
+          </div>
+          <div>
+            <label className="label">
+              <span className="label-text font-semibold">Tags <span className="text-xs text-gray-400">(comma separated)</span></span>
+            </label>
+            <input
+              type="text"
+              className="input input-bordered w-full"
+              value={tags}
+              onChange={e => setTags(e.target.value)}
+              placeholder="e.g. tutorial,react,typescript"
+              disabled={loading}
+            />
+          </div>
+          <div className="flex gap-2 mt-4">
+            <button
+              type="submit"
+              className={`btn btn-primary ${loading ? 'loading' : ''}`}
+              disabled={loading}
+            >
+              {loading ? 'Submitting...' : 'Submit'}
+            </button>
+            <button
+              type="button"
+              className="btn btn-ghost"
+              onClick={handleCancel}
+              disabled={loading}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+        {toast && (
+          <Toast
+            message={toast.message}
+            type={toast.type}
+            onClose={() => setToast(null)}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default NewVideoPage; 

@@ -94,6 +94,9 @@ veed.io-project/
 - **GET /api/videos** endpoint implemented (Express v4, TypeScript, zod validation, error handling)
 - Responsive, flicker-free layout with fixed nav bar and smooth fade transitions for sorting
 - All layout, spacing, and polish handled by Tailwind CSS and daisyUI utility classes
+- Modern toast notifications for both success and error cases (bottom-right, styled, auto-dismiss)
+- User-friendly error messages for network/server issues and validation errors
+- Create Video form: autofocus on title, loading state, cancel button, and robust client-side validation
 
 ---
 

@@ -20,9 +20,15 @@ export function useVideos(sort: 'asc' | 'desc' = 'desc') {
       try {
         setLoading(true);
         setError(null);
+        const start = Date.now();
         const res = await fetch(`/api/videos?sort=${sort}`);
         if (!res.ok) throw new Error('Failed to fetch videos');
         const data = await res.json();
+        // Ensure at least 600ms loading
+        const elapsed = Date.now() - start;
+        if (elapsed < 600) {
+          await new Promise(resolve => setTimeout(resolve, 600 - elapsed));
+        }
         setVideos(data);
       } catch (err: any) {
         setError(err.message);

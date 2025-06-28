@@ -48,23 +48,21 @@
 ## ✍️ Phase 3 — Create New Video Page (Form View)
 
 ### 🔤 Form Input
-- [ ] Input: `title` (required)
-- [ ] Input: `tags` (comma-separated or chip UI)
-- [ ] Add client-side validation (required field)
+- [x] Input: `title` (required)
+- [x] Input: `tags` (comma-separated or chip UI)
+- [x] Add client-side validation (required field)
 
 ### 📤 Submission Logic
-- [ ] POST to `/api/videos`
-- [ ] Generate fallback values on backend (`id`, `views`, etc.)
-- [ ] Show loading state on submit
-- [ ] Show success confirmation (toast or redirect)
-- [ ] Show error if submission fails
+- [x] POST to `/api/videos`
+- [x] Generate fallback values on backend (`id`, `views`, etc.)
+- [x] Show loading state on submit
+- [x] Show success confirmation (toast or redirect)
+- [x] Show error if submission fails
 
 ### 🎨 UI/UX
-- [ ] Use daisyUI form controls (input, textarea, buttons)
-- [ ] Style as a card or centered panel
-- [ ] Include Cancel button (go back to list)
-
----
+- [x] Use daisyUI form controls (input, textarea, buttons)
+- [x] Style as a card or centered panel
+- [x] Include Cancel button (go back to list)
 
 ## 🧪 Phase 4 — Backend API Implementation
 
@@ -108,7 +106,7 @@
 - [ ] Render `VideoCard` with props, check for title/tag/date
 - [ ] Test list shows loading state on fetch
 
-### �� Edge / Failure
+### 🎯 Edge / Failure
 - [x] Submit form with missing title, assert error (backend)
 - [ ] Fetch fails → show error UI
 
@@ -261,5 +259,21 @@ _Add new tasks or insights here as they come up during implementation._
   - All backend tests pass
   - No test data in production DB
   - Production and test code are cleanly separated
+
+---
+
+---
+
+### 2024-07-01 — Phase 3: Create New Video Page (Form View)
+- Implemented the create video form with required title and optional tags, using daisyUI controls and card layout.
+- Added client-side validation for required fields.
+- Integrated POST logic to `/api/videos` with loading state and error handling.
+- Added toast notifications for both success (shown on list page after redirect) and error (shown on form page).
+- Improved toast styling and UX (bottom-right, larger text, modern look).
+- Autofocus on title input when page loads.
+- Cleaned up unused error state from form logic.
+- Files touched: `frontend/src/pages/NewVideoPage.tsx`, `frontend/src/components/Toast.tsx`, `frontend/src/pages/VideoListPage.tsx`, `frontend/src/hooks/useVideos.ts`
+- Reason: Complete all requirements for Phase 3, ensure robust, user-friendly, and visually polished form experience.
+- Success: All Phase 3 tasks complete, form works as intended, UX and error handling are modern and clear.
 
 ---

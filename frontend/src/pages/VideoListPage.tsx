@@ -1,11 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useVideos } from '../hooks/useVideos';
 import VideoCard from '../components/VideoCard';
+import Toast from '../components/Toast';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const VideoListPage: React.FC = () => {
   const [sort, setSort] = useState<'asc' | 'desc'>('desc');
   const [fade, setFade] = useState(true);
   const { videos, loading, error } = useVideos(sort);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
+  useEffect(() => {
+    if (location.state && location.state.toast) {
+      setToast(location.state.toast);
+      // Clear the state so toast doesn't persist on refresh
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [location, navigate]);
 
   const handleSortChange = (newSort: 'asc' | 'desc') => {
     if (sort === newSort) return;
@@ -18,6 +31,13 @@ const VideoListPage: React.FC = () => {
 
   return (
     <>
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
       {/* Sort toggle UI */}
       <div className="flex justify-end mb-4">
         <div className="btn-group">
