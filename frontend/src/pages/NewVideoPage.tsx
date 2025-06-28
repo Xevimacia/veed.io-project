@@ -1,7 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Toast from '../components/Toast';
+import { createVideo } from '../hooks/useVideos';
 
+/**
+ * NewVideoPage provides a form for creating a new video entry.
+ * Handles client-side validation, POST submission, loading state, and toast feedback.
+ */
 const NewVideoPage: React.FC = () => {
   const [title, setTitle] = useState('');
   const [tags, setTags] = useState('');
@@ -21,55 +26,19 @@ const NewVideoPage: React.FC = () => {
       return;
     }
     setLoading(true);
-    try {
-      // Parse tags: split by comma, trim, filter out empty
-      const tagsArray = tags
-        .split(',')
-        .map(tag => tag.trim())
-        .filter(tag => tag.length > 0);
-      const start = Date.now();
-      const res = await fetch('/api/videos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: title.trim(), tags: tagsArray }),
-      });
-      // Ensure at least 1000ms loading
-      const elapsed = Date.now() - start;
-      if (elapsed < 1000) {
-        await new Promise(resolve => setTimeout(resolve, 1000 - elapsed));
-      }
-      if (!res.ok) {
-        let errorMsg = 'Failed to create video';
-        try {
-          const data = await res.json();
-          if (data && typeof data.error === 'string') {
-            errorMsg = data.error;
-          }
-        } catch {
-          // Ignore JSON parse errors, use fallback message
-        }
-        setToast({ message: errorMsg, type: 'error' });
-        setLoading(false);
-        return;
-      }
-      // Pass toast message to list page and navigate
-      navigate('/', { state: { toast: { message: 'Video created successfully!', type: 'success' } } });
-    } catch (err: any) {
-      let friendlyMsg = 'An unexpected error occurred.';
-      if (err && typeof err.message === 'string') {
-        if (
-          err.message.includes('Failed to fetch') ||
-          err.message.includes('NetworkError') ||
-          err.message.includes('Network request failed')
-        ) {
-          friendlyMsg = 'Could not connect to the server. Please try again later.';
-        } else {
-          friendlyMsg = err.message;
-        }
-      }
-      setToast({ message: friendlyMsg, type: 'error' });
+    // Parse tags: split by comma, trim, filter out empty
+    const tagsArray = tags
+      .split(',')
+      .map(tag => tag.trim())
+      .filter(tag => tag.length > 0);
+    const { error } = await createVideo({ title, tags: tagsArray });
+    if (error) {
+      setToast({ message: error, type: 'error' });
       setLoading(false);
+      return;
     }
+    // Pass toast message to list page and navigate
+    navigate('/', { state: { toast: { message: 'Video created successfully!', type: 'success' } } });
     setLoading(false);
   };
 

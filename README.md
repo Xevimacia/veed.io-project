@@ -5,11 +5,36 @@ A full-stack application to browse, sort, and manage your video library. Built w
 ---
 
 ## 🚀 Introduction
+
 This project is a take-home engineering challenge for VEED. It demonstrates a modern, modular, and well-typed approach to building a video library dashboard with a focus on code quality, UX, and maintainability.
 
 ---
 
-## 🛠️ Getting Started
+## 🏗️ Project Goal & Scope
+
+Build a fast, compact, and visually polished full-stack application that allows users to browse, sort, and create entries in a video library. The application demonstrates sound architecture, UX/UI excellence, proper validation, and clean code.
+
+---
+
+## 📦 Tech Stack
+
+**Frontend:**
+- React + Vite + TypeScript
+- Tailwind CSS
+- daisyUI
+- React Router
+- React Testing Library + Vitest
+
+**Backend:**
+- Node.js + Express (TypeScript)
+- SQLite (better-sqlite3)
+- zod (validation)
+- CORS, body-parser
+- Vitest + Supertest
+
+---
+
+## 🛠️ Setup Instructions
 
 ### 1. Clone the repository
 ```bash
@@ -17,43 +42,62 @@ git clone <your-repo-url>
 cd veed.io-project
 ```
 
-### 2. Install dependencies (Frontend)
+### 2. Install dependencies (for all workspaces)
 ```bash
-cd frontend
-nvm use v20 # or install Node.js v20 LTS
+# Install root, frontend, and backend dependencies
 npm install
+cd frontend && npm install
+cd ../backend && npm install
+cd ..
 ```
 
-### 3. Run the frontend app
-```bash
+---
+
+## 🚦 Running the App: Two Options
+
+### Option 1: Run Both Frontend & Backend Together (Recommended)
+
+From the project root, run:
+
+```sh
 npm run dev
 ```
-The app will be available at [http://localhost:5173](http://localhost:5173)
 
-### 4. Install dependencies (Backend)
-```bash
-cd ../backend
-nvm use v20 # or install Node.js v20 LTS
-npm install
-```
+- This will start both the backend (http://localhost:4000) and frontend (http://localhost:5173) in development mode using `concurrently`.
+- You will see output from both servers in your terminal.
 
-### 5. Run the backend API server
-```bash
+### Option 2: Run Frontend and Backend Separately
+
+**Start the backend:**
+```sh
+cd backend
+npm install # if not already done
 npm run dev
 ```
 The API will be available at [http://localhost:4000](http://localhost:4000)
+
+**Start the frontend:**
+```sh
+cd frontend
+npm install # if not already done
+npm run dev
+```
+The app will be available at [http://localhost:5173](http://localhost:5173)
 
 - On first run, the backend will automatically create a SQLite database in `backend/data/videos.db` and seed it with data from `backend/videos.json` if the table is empty.
 - No manual migration or seeding steps are required.
 
 ---
 
-## 📁 Project Structure
+## 📁 Directory Structure
+
 ```
 veed.io-project/
   frontend/      # React + Vite + TS + Tailwind + daisyUI (UI)
     src/
       pages/     # Route components (VideoListPage, NewVideoPage)
+      components/
+      hooks/
       ...
     public/      # Static assets (favicon, etc.)
     ...
@@ -62,8 +106,11 @@ veed.io-project/
     src/
       db/        # DB connection and seeding logic
       routes/    # API route handlers
+      models/    # Video type/interface
+      utils/
       ...
     videos.json  # Seed data for backend
+    tests/       # Vitest + Supertest API tests
   task.md        # Task tracking and changelog
   planning.md    # Architecture and planning notes
   context.md     # Challenge context and requirements
@@ -71,89 +118,154 @@ veed.io-project/
 
 ---
 
-## 📦 Packages Used
-- **React**: UI library
-- **Vite**: Fast dev/build tool
-- **TypeScript**: Type safety
-- **Tailwind CSS**: Utility-first CSS framework
-- **daisyUI**: Pre-styled Tailwind components
-- **React Router**: Routing (`/`, `/new`)
-- **Express**: Backend API
-- **better-sqlite3**: SQLite database
-- **CORS, body-parser**: Middleware for API
+## ✨ Features Delivered
+
+- Responsive video grid with thumbnail, title, date, and tags
+- Sort videos by creation date (newest/oldest)
+- Create new video form (title required, tags optional)
+- Auto-generated ID, thumbnail, created_at, duration, and views
+- Loading indicators for data fetch and form submission
+- Toast notifications for success and error
+- Global error boundary for graceful fallback UI
+- Polished empty state for video list
+- Accessibility: focus states, ARIA roles
+- Robust backend API with validation and error handling
+- Modular, typed codebase with clear separation of concerns
 
 ---
 
-## ✨ Features Implemented
-- Frontend scaffolded with Vite + React + TS
-- Tailwind CSS and daisyUI configured (v3.4.3)
-- React Router with `/` and `/new` routes
-- Favicon and meta tags set up
-- Modular page structure
-- Backend API and database setup with auto-seeding
-- **GET /api/videos** endpoint implemented (Express v4, TypeScript, zod validation, error handling)
-- Responsive, flicker-free layout with fixed nav bar and smooth fade transitions for sorting
-- All layout, spacing, and polish handled by Tailwind CSS and daisyUI utility classes
-- Modern toast notifications for both success and error cases (bottom-right, styled, auto-dismiss)
-- User-friendly error messages for network/server issues and validation errors
-- Create Video form: autofocus on title, loading state, cancel button, and robust client-side validation
-- **Global error boundary** for graceful fallback UI on unexpected errors
-- **Polished empty state** for video list (with icon, message, and CTA)
-- **Spacing, padding, and breakpoints** reviewed for consistent, responsive design
-- **Accessibility**: focus states and ARIA roles reviewed for all main flows
-
----
-
-## 🛡️ API Endpoints
+## 🛡️ API Documentation
 
 ### `GET /api/videos`
-- Returns a list of all videos from the SQLite database
-- Supports optional `?sort=asc|desc` query parameter (default: newest first)
-- Returns: Array of video objects with fields: `id`, `title`, `thumbnail_url`, `created_at`, `duration`, `views`, `tags`
-- Input validated with zod; errors return 400 with JSON error message
-- All errors are handled with proper status codes and JSON responses
+- **Description:** Returns a list of all videos from the SQLite database
+- **Query Parameters:** `sort=asc|desc` (optional, default: newest first)
+- **Response:** `200 OK`
+  ```json
+  [
+    {
+      "id": "v-001",
+      "title": "Sample Video",
+      "thumbnail_url": "...",
+      "created_at": "2024-06-01T12:00:00Z",
+      "duration": 0,
+      "views": 0,
+      "tags": ["tag1", "tag2"]
+    },
+    ...
+  ]
+  ```
+- **Errors:**  
+  - `400 Bad Request` (invalid sort param)
+  - `500 Internal Server Error` (unexpected error)
+
+### `POST /api/videos`
+- **Description:** Create a new video entry
+- **Payload:**
+  ```json
+  {
+    "title": "My New Video",
+    "tags": ["tag1", "tag2"] // optional
+  }
+  ```
+- **Response:** `201 Created`
+  ```json
+  {
+    "id": "v-052",
+    "title": "My New Video",
+    "thumbnail_url": "...",
+    "created_at": "2024-07-01T12:00:00Z",
+    "duration": 0,
+    "views": 0,
+    "tags": ["tag1", "tag2"]
+  }
+  ```
+- **Errors:**  
+  - `400 Bad Request` (missing title, invalid input)
+    ```json
+    { "error": "Title is required" }
+    ```
+  - `500 Internal Server Error` (unexpected error)
 
 ---
 
-## 📝 Next Steps
-- Backend API endpoints (`GET /api/videos`, `POST /api/videos`)
-- Video grid and form implementation
-- API integration
-- Testing (Vitest, React Testing Library)
-- Further UI/UX improvements
+## 🧪 Testing
+
+### Backend
+- Uses **Vitest** and **Supertest** for API tests.
+- Tests cover:
+  - GET /api/videos (normal, sort, error cases)
+  - POST /api/videos (normal, edge, failure cases)
+- Tests use an in-memory SQLite DB seeded from videos.json for isolation.
+
+**To run backend tests:**
+```sh
+cd backend
+npm install
+npm run test
+```
+
+### Frontend
+- (Future tests) Use **React Testing Library** + **Vitest** for UI tests.
+- Suggested tests:
+  - VideoCard renders with correct props
+  - Loading state on video list fetch
+  - Form validation and error display
 
 ---
 
-## 📚 Documentation & References
+## ♿ Accessibility & UX
+
+- All interactive elements have focus states and ARIA roles where appropriate.
+- Layout is fully responsive and visually polished.
+- Loading, error, and empty states are handled gracefully.
+- Toasts and error boundaries provide clear user feedback.
+
+---
+
+## 📝 Architecture & Decisions
+
+- **Monorepo**: `/frontend` and `/backend` for clear separation.
+- **TypeScript everywhere**: Ensures type safety and maintainability.
+- **Single source of truth for Video type**: Consistent interface across backend and frontend.
+- **Test isolation**: Backend tests use in-memory DB, never pollute production data.
+- **No global state libraries**: Simple custom hooks for data fetching (scalable for small projects).
+- **Tailwind + daisyUI**: For rapid, consistent, and accessible UI development.
+
+---
+
+## 🚧 Future Improvements
+
+- Add tag filter dropdown (filter videos by tag)
+- Paginate video list (e.g., 12 per page)
+- Persist sort preference in localStorage
+- Add light/dark theme toggle
+- More frontend tests (VideoCard, loading, error, empty states)
+- Advanced responsive tweaks for edge cases
+- Per-component error boundaries
+
+---
+
+## 📚 References
+
 - See `context.md` for challenge requirements
+- See `planning.md` for architecture and design notes
+- See `task.md` for changelog and implementation log
 
-## 🧪 Testing & Monorepo Note
+---
 
-Tests for backend and frontend are kept inside their respective package folders (e.g., `backend/tests/`, `frontend/tests/`).
+## 🗒️ Changelog & Task Tracking
 
-> **Note:** For larger or more complex monorepos, tools like Yarn Workspaces, pnpm, or Turborepo can be used to centralize dependencies and test runs. In this project, we intentionally keep the structure lean and simple, with each package managing its own dependencies, scripts, and tests for maximum clarity and minimal overhead.
+- All major changes, decisions, and implementation steps are logged in `task.md`.
 
-> **Frontend Testing Note:**
-> React Testing Library tests for the video grid and UI states could be implemented (e.g., loading, error, empty, and normal states), but are omitted here due to time constraints for the take-home challenge.
+---
 
-## 🧪 Running Backend Tests
+## 🔒 Environment Variables
 
-To run backend API tests:
+- No environment variables are required for this project.
+- If you add any, document them in `.env.example`.
 
-1. Open a terminal and navigate to the backend folder:
-   ```sh
-   cd backend
-   ```
-2. Install dependencies (if not already done):
-   ```sh
-   npm install
-   ```
-3. Run the tests (runs once and exits):
-   ```sh
-   npm run test
-   ```
+---
 
-- Tests use [Vitest](https://vitest.dev/) and [Supertest](https://github.com/ladjs/supertest) for fast, robust API testing.
-- No need to start the backend server manually; tests import the Express app directly.
+## License
 
-> **Backend tests use an in-memory SQLite database, seeded from videos.json before each test. This ensures test isolation and prevents test data from polluting production. The production DB is auto-seeded if missing or empty.**
+MIT

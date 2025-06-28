@@ -3,6 +3,11 @@ import VideoListPage from './pages/VideoListPage'
 import NewVideoPage from './pages/NewVideoPage'
 import ErrorBoundary from './components/ErrorBoundary'
 
+/**
+ * The root App component for the VEED Video Library Dashboard.
+ * Sets up global routing, navigation bar, and error boundary for the entire frontend.
+ * All main pages are rendered as routes inside this component.
+ */
 function App() {
   return (
     <BrowserRouter>

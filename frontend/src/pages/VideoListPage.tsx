@@ -4,6 +4,10 @@ import VideoCard from '../components/VideoCard';
 import Toast from '../components/Toast';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+/**
+ * VideoListPage displays the main video grid with sorting, loading, error, and empty states.
+ * Fetches videos from the backend, allows sorting, and shows toasts for user feedback.
+ */
 const VideoListPage: React.FC = () => {
   const [sort, setSort] = useState<'asc' | 'desc'>('desc');
   const [fade, setFade] = useState(true);

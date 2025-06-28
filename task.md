@@ -278,11 +278,12 @@ _Add new tasks or insights here as they come up during implementation._
 
 ---
 
-### 2024-07-01 — Phase 6: UX Polish & Error States (Completed)
-- Completed all Phase 6 tasks required for the current project scope.
-- Spacing, padding, and breakpoints reviewed and found satisfactory.
-- Accessibility (focus states, ARIA) reviewed and found satisfactory for all main flows.
-- No further changes required for Phase 6 polish.
+### 2024-07-01 — Refactor: Centralize Create Video Fetch Logic
+- Moved the POST fetch logic for creating a new video from NewVideoPage.tsx to a reusable createVideo function in useVideos.ts.
+- Ensures consistent fetch structure and error handling for both listing and creating videos.
+- NewVideoPage now calls createVideo from the hook.
+- Reason: DRY principle, maintainability, and code clarity.
+- Success: All video fetch logic is now centralized in useVideos.ts.
 
 ---
 

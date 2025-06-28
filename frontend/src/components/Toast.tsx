@@ -1,5 +1,14 @@
 import React, { useEffect } from 'react';
 
+/**
+ * Toast component for displaying temporary success or error messages.
+ * Appears fixed in the bottom-right corner and auto-dismisses after 3 seconds.
+ * Props:
+ * - message: string (the message to display)
+ * - type: 'success' | 'error' (controls color/style)
+ * - onClose: function to call when toast is dismissed
+ */
+
 interface ToastProps {
   message: string;
   type: 'success' | 'error';

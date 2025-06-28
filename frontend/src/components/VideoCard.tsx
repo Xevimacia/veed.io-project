@@ -1,10 +1,22 @@
 import React from 'react';
 import type { Video } from '../hooks/useVideos';
 
+/**
+ * VideoCard component displays a single video's thumbnail, title, date, and tags in a styled card.
+ * Used in the video grid/list view.
+ * Props:
+ * - video: Video (the video object to display)
+ */
+
 interface VideoCardProps {
   video: Video;
 }
 
+/**
+ * Formats an ISO date string as a human-readable date (e.g., 'Jan 1, 2024').
+ * @param dateStr - ISO date string
+ * @returns Formatted date string
+ */
 function formatDate(dateStr: string) {
   const date = new Date(dateStr);
   return date.toLocaleDateString(undefined, {
