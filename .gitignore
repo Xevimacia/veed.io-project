@@ -3,3 +3,5 @@ context.md
 planning.md
 task.md
 .cursor/rules/
+# Ignore SQLite database file
+backend/data/videos.db 
